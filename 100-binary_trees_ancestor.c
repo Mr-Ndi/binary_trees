@@ -13,9 +13,7 @@ binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
 		const binary_tree_t *second)
 {
 	int diff;
-	binary_tree_t *parent;
-	int is_true;
-	int is_same;
+	binary_tree_t *lowest, *highest;
 
 	if (!first || !second)
 		return (NULL);
@@ -23,21 +21,23 @@ binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
 	diff = binary_tree_depth(first) - binary_tree_depth(second);
 	if (diff >= 0)
 	{
-		parent = climb(first, diff);
-		is_true = (parent->parent == second->parent);
-		is_same = (parent == second);
+		lowest = climb(first, diff);
+		highest = (binary_tree_t *)second;
 	}
 	else if (diff < 0)
 	{
-		parent = climb(second, -diff);
-		is_true = (parent->parent == first->parent);
-		is_same = (parent == first);
+		lowest = climb(second, -diff);
+		highest = (binary_tree_t *)first;
 	}
 
-	if (is_same)
-		return (parent);
-	else if (is_true)
-		return (parent->parent);
+	while (highest && lowest && lowest != highest)
+	{
+		lowest = lowest->parent;
+		highest = highest->parent;
+	}
+
+	if (lowest == highest)
+		return (lowest); /*or return (highest); <whatever>*/
 	else
 		return (NULL);
 }
