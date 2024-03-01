@@ -17,6 +17,16 @@ typedef struct binary_tree_s
 	struct binary_tree_s *right;
 } binary_tree_t;
 
+/**
+  *struct node_s - This a node used to reference binary tree node in BFS
+  *@p: Pointer to the binary tree node in consideration
+  */
+typedef struct node_s
+{
+	binary_tree_t *p;
+	struct node_s *next;
+} node_t;
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -42,4 +52,5 @@ size_t binary_tree_leaves(const binary_tree_t *tree);
 int binary_tree_balance(const binary_tree_t *tree);
 int binary_tree_is_perfect(const binary_tree_t *tree);
 binary_tree_t *binary_tree_uncle(binary_tree_t *node);
+void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int));
 #endif
